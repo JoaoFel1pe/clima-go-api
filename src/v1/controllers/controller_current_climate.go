@@ -3,6 +3,8 @@ package controllers
 import (
 	"api/src/v1/helpers"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,14 +18,31 @@ func GetCurrentClimate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	geolocation, err2 := helpers.GetGeolocation(city)
-	if err2 != nil {
-		helpers.ResponseError(w, http.StatusBadRequest, err2)
+	geolocation, err := helpers.GetGeolocation(city)
+	if err != nil {
+		helpers.ResponseError(w, http.StatusNotFound, fmt.Errorf("City not found"))
 		return
 	}
 
 	query := helpers.BuildQueryCurrentCondition(fmt.Sprintf("%f", geolocation["lat"]), fmt.Sprintf("%f", geolocation["lng"]))
-	fmt.Println(query)
-	w.Write([]byte(fmt.Sprintf(query)))
 
+	result := executeQuery(query)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(result))
+}
+
+func executeQuery(query string) string {
+	resp, err := http.Get(query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return string(body)
 }

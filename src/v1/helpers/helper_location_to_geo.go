@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"encoding/json"
+	"fmt"
 	"os/exec"
 )
 
@@ -16,6 +17,10 @@ func GetGeolocation(city string) (map[string]float64, error) {
 	err = json.Unmarshal(output, &geo)
 	if err != nil {
 		return nil, err
+	}
+
+	if _, err := geo["error"]; err {
+		return nil, fmt.Errorf("City not found\n")
 	}
 
 	return geo, nil
