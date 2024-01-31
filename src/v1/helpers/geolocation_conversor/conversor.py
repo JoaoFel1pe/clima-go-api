@@ -6,7 +6,7 @@ def get_geolocation(city):
     geolocator = Nominatim(user_agent="clima_tempo")
     location = geolocator.geocode(city)
     if location is None:
-        raise Exception("It wasn't possible to convert the location to geo coordinates")
+        return {"error": 0.0}
     
     return {"lat": location.latitude, "lng": location.longitude}
 
