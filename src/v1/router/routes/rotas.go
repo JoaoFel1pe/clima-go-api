@@ -15,7 +15,8 @@ type Rota struct {
 }
 
 func Configurar(r *mux.Router) *mux.Router {
-	routes := routesClimaAtual
+	routes := routeCurrentClimate
+	routes = append(routes, routeForecastClimate...)
 	for _, rota := range routes {
 		r.HandleFunc(rota.URI, rota.Funcao).Methods(rota.Metodo)
 	}

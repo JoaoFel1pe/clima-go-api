@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-var routesClimaAtual = []Rota{
+var routeCurrentClimate = []Rota{
 	{
 		URI:                "/current-climate/{city}",
 		Metodo:             http.MethodGet,

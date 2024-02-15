@@ -4,9 +4,12 @@ import (
 	"api/src/v1/helpers"
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
-func GetCurrentClimate(w http.ResponseWriter, r *http.Request) {
+func GetForecastClimate(w http.ResponseWriter, r *http.Request) {
+	days := mux.Vars(r)["days"]
 	geolocation, err := helpers.GetLocation(r)
 
 	if err != nil {
@@ -14,7 +17,7 @@ func GetCurrentClimate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := helpers.BuildQueryCurrentCondition(fmt.Sprintf("%f", geolocation["lat"]), fmt.Sprintf("%f", geolocation["lng"]))
+	query := helpers.BuildQueryForecast(fmt.Sprintf("%f", geolocation["lat"]), fmt.Sprintf("%f", geolocation["lng"]), days)
 
 	result := helpers.ExecuteQuery(query)
 
