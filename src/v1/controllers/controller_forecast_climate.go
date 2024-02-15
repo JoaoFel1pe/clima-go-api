@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"api/src/v1/helpers"
 	"fmt"
 	"net/http"
 
@@ -8,8 +9,18 @@ import (
 )
 
 func GetForecastClimate(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	city, days := params["city"], params["days"]
+	days := mux.Vars(r)["days"]
+	geolocation, err := helpers.GetLocation(r)
 
-	fmt.Println("Forecast Climate: ", city, days)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+		return
+	}
+
+	query := helpers.BuildQueryForecast(fmt.Sprintf("%f", geolocation["lat"]), fmt.Sprintf("%f", geolocation["lng"]), days)
+
+	result := helpers.ExecuteQuery(query)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(result))
 }
