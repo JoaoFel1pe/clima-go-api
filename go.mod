@@ -10,3 +10,5 @@ require (
 	github.com/joho/godotenv v1.3.0
 	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
 )
+
+require github.com/kelvins/geocoder v0.0.0-20231112130812-98d82c75e49b

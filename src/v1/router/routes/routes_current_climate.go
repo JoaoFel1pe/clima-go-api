@@ -1,13 +1,13 @@
 package routes
 
 import (
-	"api/src/controllers"
+	"api/src/v1/controllers"
 	"net/http"
 )
 
-var routesClimaAtual = []Rota{
+var routeCurrentClimate = []Rota{
 	{
-		URI:                "/clima-atual",
+		URI:                "/current-climate/{city}",
 		Metodo:             http.MethodGet,
 		Funcao:             controllers.GetCurrentClimate,
 		RequerAutenticacao: false,

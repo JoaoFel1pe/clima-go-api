@@ -33,6 +33,6 @@ func LoadEnvs() {
 
 	API_V1_STR = os.Getenv("API_V1_STR")
 	AZURE_API_KEY = os.Getenv("AZURE_API_KEY")
-	AZURE_BASE_URL = os.Getenv("AZURE_BASE_URL")
+	AZURE_BASE_URL = os.Getenv("BASE_URL_AZURE")
 
 }
