@@ -4,21 +4,13 @@ import (
 	"api/src/v1/helpers"
 	"fmt"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func GetCurrentClimate(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	city, exists := params["city"]
-	if !exists {
-		helpers.ResponseError(w, http.StatusBadRequest, fmt.Errorf("city not found"))
-		return
-	}
+	geolocation, err := helpers.GetLocation(r)
 
-	geolocation, err := helpers.GetGeolocation(city)
 	if err != nil {
-		helpers.ResponseError(w, http.StatusNotFound, fmt.Errorf("City not found"))
+		http.Error(w, err.Error(), http.StatusNotFound)
 		return
 	}
 
