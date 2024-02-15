@@ -13,12 +13,3 @@ var routeCurrentClimate = []Rota{
 		RequerAutenticacao: false,
 	},
 }
-
-var routeForecastClimate = []Rota{
-	{
-		URI:                "/forecast-climate/{city}/{days}",
-		Metodo:             http.MethodGet,
-		Funcao:             controllers.GetForecastClimate,
-		RequerAutenticacao: false,
-	},
-}
